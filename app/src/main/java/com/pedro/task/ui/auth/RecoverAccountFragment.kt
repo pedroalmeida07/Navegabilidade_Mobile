@@ -6,12 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.pedro.task.R
-import com.pedro.task.databinding.FragmentLoginBinding
+import com.pedro.task.databinding.FragmentRecoverAccountFregmentBinding
 
+class RecoverAccountFragment : Fragment() {
 
-class LoginFragment : Fragment() {
-
-    private var _binding: FragmentLoginBinding? = null
+    private var _binding: FragmentRecoverAccountFregmentBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -19,7 +18,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentRecoverAccountFregmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -27,5 +26,4 @@ class LoginFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
