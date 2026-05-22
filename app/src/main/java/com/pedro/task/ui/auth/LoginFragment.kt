@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.pedro.task.R
 import com.pedro.task.databinding.FragmentLoginBinding
 
@@ -21,6 +22,26 @@ class LoginFragment : Fragment() {
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initListener()
+    }
+
+    private fun initListener(){
+        binding.btnLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_global_homeFragment)
+        }
+
+        binding.btnRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment2_to_registerFragment2)
+        }
+
+        binding.btnRecover.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment2_to_recoverAccountFragment3)
+        }
     }
 
     override fun onDestroyView() {

@@ -1,4 +1,4 @@
-package com.pedro.task.ui.auth
+package com.pedro.task.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.pedro.task.R
-import com.pedro.task.databinding.FragmentRecoverAccountBinding
+import com.pedro.task.databinding.FragmentDoingBinding
 
 
-class RecoverAccountFragment : Fragment() {
+class DoingFragment : Fragment() {
 
-    private var _binding: FragmentRecoverAccountBinding? = null
+    private var _binding: FragmentDoingBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -19,7 +19,7 @@ class RecoverAccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRecoverAccountBinding.inflate(inflater, container, false)
+        _binding = FragmentDoingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -27,4 +27,5 @@ class RecoverAccountFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }
