@@ -26,7 +26,8 @@
                 android:layout_height="wrap_content"
                 android:text="Criar Conta"
                 android:textColor="@color/white"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="20dp"/>
 
         </com.google.android.material.appbar.MaterialToolbar>
 
