@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.pedro.task.R
 import com.pedro.task.databinding.FragmentRegisterBinding
 import com.pedro.task.util.initToolbar
+import com.pedro.task.util.showBottomSheet
 
 class RegisterFragment : Fragment() {
 
@@ -38,11 +39,16 @@ class RegisterFragment : Fragment() {
 
     private fun validateData(){
         val email = binding.campoEmail.text.toString().trim()
+        val senha = binding.campoSenha.text.toString().trim()
 
         if (email.isNotBlank()){
-            Toast.makeText(requireContext(), "Tudo OK", Toast.LENGTH_SHORT).show()
-        } else{
-            Toast.makeText(requireContext(), "Preencha um email válido", Toast.LENGTH_SHORT).show()
+            if (senha.isNotBlank()){
+                Toast.makeText(requireContext(), "Tudo OK", Toast.LENGTH_SHORT).show()
+            } else{
+                showBottomSheet(message = R.string.password_empty_register_fragment)
+            }
+        }else{
+            showBottomSheet(message = R.string.email_empty_register_fragment)
         }
     }
 

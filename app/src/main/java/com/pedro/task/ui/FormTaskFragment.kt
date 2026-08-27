@@ -11,6 +11,7 @@ import com.pedro.task.databinding.FragmentFormTaskBinding
 import com.pedro.task.databinding.FragmentRecoverAccountBinding
 import com.pedro.task.databinding.FragmentRegisterBinding
 import com.pedro.task.util.initToolbar
+import com.pedro.task.util.showBottomSheet
 
 class FormTaskFragment : Fragment() {
 
@@ -44,7 +45,7 @@ class FormTaskFragment : Fragment() {
         if (description.isNotBlank()){
             Toast.makeText(requireContext(), "Tudo OK!", Toast.LENGTH_SHORT).show()
         }else{
-            Toast.makeText(requireContext(), "Preencha a descrição!", Toast.LENGTH_SHORT).show()
+            showBottomSheet(message = R.string.description_empty_form_task_fragment)
         }
     }
 }
