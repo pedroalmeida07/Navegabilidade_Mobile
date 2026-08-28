@@ -80,7 +80,7 @@
                 android:layout_width="88dp"
                 android:layout_height="48dp"
                 android:id="@+id/rbTodo"
-                android:text="A Fazer"
+                android:text="@string/status_task_todo"
                 android:checked="true"
                 android:theme="@style/MyRadioButton"
                 android:textColor="@color/white"/>
@@ -89,7 +89,7 @@
                 android:layout_width="88dp"
                 android:layout_height="48dp"
                 android:id="@+id/rbDoing"
-                android:text="Fazendo"
+                android:text="@string/status_task_doing"
                 android:theme="@style/MyRadioButton"
                 android:textColor="@color/white"/>
 
@@ -97,7 +97,7 @@
                 android:layout_width="88dp"
                 android:layout_height="48dp"
                 android:id="@+id/rbDone"
-                android:text="Feita"
+                android:text="@string/status_task_done"
                 android:theme="@style/MyRadioButton"
                 android:textColor="@color/white"/>
         </RadioGroup>
