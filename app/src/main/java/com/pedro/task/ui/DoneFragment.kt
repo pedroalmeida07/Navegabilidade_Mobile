@@ -34,7 +34,8 @@ class DoneFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
 
-        initRecyclerViewTask(getTask())
+        initRecyclerViewTask()
+        getTask()
     }
 
     private fun initListeners(){
@@ -43,12 +44,14 @@ class DoneFragment : Fragment() {
         }
     }
 
-    private fun initRecyclerViewTask(taskList: List<Task>){
-        taskAdapter = TaskAdapter(requireContext(),taskList) {task, option -> optionSelected(task, option)}
-        binding.recyclerViewTask.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewTask.setHasFixedSize(true)
+    private fun initRecyclerViewTask(){
+        taskAdapter = TaskAdapter(requireContext(),) {task, option -> optionSelected(task, option)}
 
-        binding.recyclerViewTask.adapter = taskAdapter
+        with(binding.recyclerViewTask){
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = taskAdapter
+        }
     }
 
     private fun optionSelected(task: Task, option:Int){
@@ -69,13 +72,16 @@ class DoneFragment : Fragment() {
         }
     }
 
-    private fun getTask() = listOf(
-        Task("5", "Conectar API", Status.DONE),
-        Task("6", "Validar informações na tela de logout", Status.DONE),
-        Task("7", "Conectar banco de dados", Status.DONE),
-        Task("8", "Salvar token na nuvem", Status.DONE),
-        Task("9", "Fazer backup", Status.DONE),
-    )
+    private fun getTask() {
+        val taskList = listOf(
+            Task("5", "Conectar API", Status.DONE),
+            Task("6", "Validar informações na tela de logout", Status.DONE),
+            Task("7", "Conectar banco de dados", Status.DONE),
+            Task("8", "Salvar token na nuvem", Status.DONE),
+            Task("9", "Fazer backup", Status.DONE),
+        )
+        taskAdapter.submitList(taskList)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

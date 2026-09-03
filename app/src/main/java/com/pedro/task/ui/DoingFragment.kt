@@ -34,8 +34,8 @@ class DoingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
-
-        initRecyclerViewTask(getTask())
+        initRecyclerViewTask()
+        getTask()
     }
 
     private fun initListeners(){
@@ -44,12 +44,14 @@ class DoingFragment : Fragment() {
         }
     }
 
-    private fun initRecyclerViewTask(taskList: List<Task>){
-        taskAdapter = TaskAdapter(requireContext(), taskList) {task, option -> optionSelected(task, option)}
-        binding.recyclerViewTask.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewTask.setHasFixedSize(true)
+    private fun initRecyclerViewTask(){
+        taskAdapter = TaskAdapter(requireContext(), ) {task, option -> optionSelected(task, option)}
 
-        binding.recyclerViewTask.adapter = taskAdapter
+        with(binding.recyclerViewTask){
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = taskAdapter
+        }
     }
 
     private fun optionSelected(task: Task, option:Int){
@@ -74,13 +76,16 @@ class DoingFragment : Fragment() {
         }
     }
 
-    private fun getTask() = listOf(
-        Task("10", "Criar novo app", Status.DOING),
-        Task("11", "Salvar projeto no GitHub", Status.DOING),
-        Task("12", "Adicionar imagem principal", Status.DOING),
-        Task("13", "Salvar dados do usuário", Status.DOING),
-        Task("14", "Criar funcionalidade de login no app", Status.DOING),
-    )
+    private fun getTask() {
+        val taskList = listOf(
+            Task("10", "Criar novo app", Status.DOING),
+            Task("11", "Salvar projeto no GitHub", Status.DOING),
+            Task("12", "Adicionar imagem principal", Status.DOING),
+            Task("13", "Salvar dados do usuário", Status.DOING),
+            Task("14", "Criar funcionalidade de login no app", Status.DOING),
+        )
+        taskAdapter.submitList(taskList)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
