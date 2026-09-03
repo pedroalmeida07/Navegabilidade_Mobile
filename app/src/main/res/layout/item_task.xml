@@ -45,7 +45,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/buttonEditar"
                 app:layout_constraintEnd_toStartOf="@id/buttonDelete"
-                app:tint="@color/color_default"
+                app:tint="@color/orange"
                 android:contentDescription="Anterior"/>
 
             <com.google.android.material.button.MaterialButton
@@ -107,7 +107,7 @@
                 app:layout_constraintStart_toEndOf="@id/buttonDetails"
                 app:layout_constraintTop_toTopOf="@id/buttonEditar"
                 android:contentDescription="Proximo"
-                app:tint="@color/color_default"/>
+                app:tint="@color/green"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
