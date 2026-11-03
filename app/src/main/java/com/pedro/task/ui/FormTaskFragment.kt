@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.firebase.Firebase
@@ -34,6 +35,8 @@ class FormTaskFragment : Fragment() {
 
     private lateinit var reference: DatabaseReference
     private lateinit var auth: FirebaseAuth
+
+    private val viewModel: TaskViewModel by activityViewModels()
     private val args: FormTaskFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -135,9 +138,14 @@ class FormTaskFragment : Fragment() {
                             R.string.text_update_sucess_form_task_fragment,
                             Toast.LENGTH_SHORT
                         ).show()
+
+                        viewModel.setUpdateTask(task)
+                        binding.progressBar.isVisible = false
                     }
                 }else{
+                    // Mostra erro específico se disponível
                     binding.progressBar.isVisible = false
+                    val errorMessage = result.exception?.message?: getString(R.string.error_generic)
                     showBottomSheet(message = getString(R.string.error_generic))
                 }
             }
