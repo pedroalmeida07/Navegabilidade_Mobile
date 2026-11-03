@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -33,6 +34,7 @@ class FormTaskFragment : Fragment() {
 
     private lateinit var reference: DatabaseReference
     private lateinit var auth: FirebaseAuth
+    private val args: FormTaskFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,14 +52,38 @@ class FormTaskFragment : Fragment() {
         reference = Firebase.database.reference
         auth = Firebase.auth
 
+        getArgs()
         initListener()
     }
 
-    private fun initListener(){
-        binding.buttonSave.setOnClickListener {
-            validateData()
+    private fun getArgs() {
+        args.task.let {
+            if (it != null) {
+                this.task = it
+                configTask()
+            }
         }
+    }
 
+    private fun configTask(){
+        newTask = false
+        status = task.status
+        binding.textToolbar.setText(R.string.text_toolbar_update_form_task_fragment)
+
+        binding.editTextDescricao.setText(task.description)
+        setStatus()
+    }
+
+    private fun setStatus(){
+        val id = when (task.status){
+            Status.TODO -> R.id.rbTodo
+            Status.DOING -> R.id.rbDoing
+            else -> R.id.rbDone
+        }
+        binding.radioGroup.check(id)
+    }
+
+    private fun initListener(){
         // Evento que monitora a mudança de escolha do radioGroup
         binding.radioGroup.setOnCheckedChangeListener { _, id -> status =
             when(id){
@@ -74,13 +100,13 @@ class FormTaskFragment : Fragment() {
         if (description.isNotBlank()){
             binding.progressBar.isVisible = true
 
-            if (newTask) task = Task(
-                id = reference.database.reference.push().key ?: "",
-                description = description,
-                status = status)
+            if (newTask) {
+                task = Task(id = reference.database.reference.push().key ?: "",
+                    description = description,
+                    status = status)
+            }
 
             saveTask()
-
 
         }else{
             showBottomSheet(message = getString(R.string.description_empty_form_task_fragment))
@@ -104,7 +130,11 @@ class FormTaskFragment : Fragment() {
                         findNavController().popBackStack()
                     }else{
                         // Editando tarefa
-                        binding.progressBar.isVisible = false
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.text_update_sucess_form_task_fragment,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }else{
                     binding.progressBar.isVisible = false
