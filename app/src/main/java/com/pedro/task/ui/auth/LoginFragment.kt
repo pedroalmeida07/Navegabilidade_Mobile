@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.pedro.task.R
 import com.pedro.task.databinding.FragmentLoginBinding
+import com.pedro.task.util.FirebaseHelper
 import com.pedro.task.util.showBottomSheet
 
 
@@ -76,7 +77,7 @@ class LoginFragment : Fragment() {
                        findNavController().navigate(R.id.action_global_homeFragment)
                    }else{
                        binding.progressBar.isVisible = false
-                       Toast.makeText(requireContext(), task.exception?.message, Toast.LENGTH_SHORT).show()
+                       showBottomSheet(message = getString(FirebaseHelper.validError(task.exception?.message.toString())))
                    }
                }
         }catch (e: Exception){

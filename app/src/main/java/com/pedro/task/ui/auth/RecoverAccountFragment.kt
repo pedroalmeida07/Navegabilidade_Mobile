@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.pedro.task.R
 import com.pedro.task.databinding.FragmentRecoverAccountBinding
+import com.pedro.task.util.FirebaseHelper
 import com.pedro.task.util.initToolbar
 import com.pedro.task.util.showBottomSheet
 
@@ -64,7 +65,7 @@ class RecoverAccountFragment : Fragment() {
                     if (task.isSuccessful){
                         showBottomSheet(message = "Conta Recuperada")
                     }else{
-                        Toast.makeText(requireContext(),task.exception?.message, Toast.LENGTH_SHORT).show()
+                        showBottomSheet(message = getString(FirebaseHelper.validError(task.exception?.message.toString())))
                     }
                 }
         }catch (e: Exception){

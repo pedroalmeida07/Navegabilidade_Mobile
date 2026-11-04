@@ -12,6 +12,7 @@ import com.pedro.task.databinding.FragmentRegisterBinding
 import com.pedro.task.util.initToolbar
 import com.pedro.task.util.showBottomSheet
 import com.google.firebase.auth.FirebaseAuth
+import com.pedro.task.util.FirebaseHelper
 
 class RegisterFragment : Fragment() {
 
@@ -67,7 +68,7 @@ class RegisterFragment : Fragment() {
                     } else {
                         binding.progressBar.isVisible = false
 
-                        Toast.makeText(requireContext(),task.exception?.message, Toast.LENGTH_SHORT).show()
+                        showBottomSheet(message = getString(FirebaseHelper.validError(task.exception?.message.toString())))
                     }
                 }
         } catch (e: Exception){
