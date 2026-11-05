@@ -13,6 +13,8 @@ import com.pedro.task.data.model.Status
 import com.pedro.task.data.model.Task
 import com.pedro.task.databinding.FragmentDoneBinding
 import com.pedro.task.ui.adapter.TaskAdapter
+import com.pedro.task.util.FirebaseHelper
+import com.pedro.task.util.showBottomSheet
 
 class DoneFragment : Fragment() {
 
@@ -57,10 +59,16 @@ class DoneFragment : Fragment() {
     private fun optionSelected(task: Task, option:Int){
         when(option){
             TaskAdapter.SELECTED_REMOVER -> {
-                Toast.makeText(requireContext(), "Removendo ${task.description}", Toast.LENGTH_SHORT).show()
+                showBottomSheet(titleDialog = R.string.text_title_dialog_delete,
+                    message = getString(R.string.text_message_dialog_delete),
+                    titleButton = R.string.text_button_dialog_confirm,
+                    onClick = {
+                        deleteTask(task)
+                    })
             }
             TaskAdapter.SELECT_EDIT -> {
-                Toast.makeText(requireContext(), "Editando ${task.description}", Toast.LENGTH_SHORT).show()
+                val action = HomeFragmentDirections.actionHomeFragmentToFormTaskFragment(task)
+                findNavController().navigate(action)
             }
             TaskAdapter.SELECT_DETAILS -> {
                 Toast.makeText(requireContext(), "Detalhes ${task.description}", Toast.LENGTH_SHORT).show()
@@ -81,6 +89,20 @@ class DoneFragment : Fragment() {
             Task("9", "Fazer backup", Status.DONE),
         )
         taskAdapter.submitList(taskList)
+    }
+
+    private fun deleteTask(task: Task){
+        FirebaseHelper.getDatabase()
+            .child("task")
+            .child(FirebaseHelper.getIdUser())
+            .child(task.id)
+            .removeValue().addOnCompleteListener { result ->
+                if (result.isSuccessful){
+                    Toast.makeText(requireContext(),R.string.text_delete_sucess_task, Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(requireContext(), R.string.error_generic, Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     override fun onDestroyView() {

@@ -13,7 +13,6 @@ import com.pedro.task.databinding.FragmentHomeBinding
 import com.pedro.task.ui.adapter.ViewPagerAdapter
 import com.pedro.task.util.showBottomSheet
 
-
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null

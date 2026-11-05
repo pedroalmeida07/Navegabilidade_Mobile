@@ -62,7 +62,7 @@ class RecoverAccountFragment : BaseFragment() {
                 .addOnCompleteListener { task ->
                     binding.progressBar.isVisible = false
                     if (task.isSuccessful){
-                        showBottomSheet(message = "Conta Recuperada")
+                        showBottomSheet(message = getString(R.string.recover_account_sucess))
                     }else{
                         showBottomSheet(message = getString(FirebaseHelper.validError(task.exception?.message.toString())))
                     }

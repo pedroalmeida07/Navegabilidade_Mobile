@@ -57,6 +57,7 @@ class TaskAdapter(
         setIndicators(task, holder)
     }
 
+    // Ajusta a visibilidade dos botões e setas dependendo do status atual da tarefa
     private fun setIndicators(task: Task, holder: MyViewHolder){
         when(task.status){
             Status.TODO -> {

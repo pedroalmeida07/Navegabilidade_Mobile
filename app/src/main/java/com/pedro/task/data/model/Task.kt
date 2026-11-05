@@ -9,7 +9,7 @@ data class Task (
     var id: String = "",
     var description: String = "",
 
-    // Cria a tarefa como TODO
+    // Define o status inicial da tarefa como TODO (A Fazer)
     var status: Status = Status.TODO
 ): Parcelable{
     init{

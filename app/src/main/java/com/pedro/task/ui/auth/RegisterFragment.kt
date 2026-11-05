@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.pedro.task.R
 import com.pedro.task.databinding.FragmentRegisterBinding
 import com.pedro.task.util.initToolbar
@@ -61,11 +62,10 @@ class RegisterFragment : BaseFragment() {
 
     private fun registerUser(email:String, password: String){
         try {
-
             FirebaseHelper.getAuth().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-
+                        findNavController().navigate(R.id.action_global_homeFragment)
                     } else {
                         binding.progressBar.isVisible = false
 

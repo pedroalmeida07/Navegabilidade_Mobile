@@ -13,6 +13,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.pedro.task.R
 import com.pedro.task.databinding.FragmentSplashBinding
 
+//Tela de Splash (Abertura do aplicativo).
+// Aguarda e verifica se há uma sessão de usuário ativa no Firebase Authentication.
 class SplashFragment : Fragment() {
 
     private var _binding: FragmentSplashBinding? = null
@@ -36,13 +38,16 @@ class SplashFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed({checkAuth()}, 3000)
     }
 
+    // Função de verificação de autenticação
     private fun checkAuth(){
         try {
             val currentUser = auth.currentUser
 
             if (currentUser != null){
+                // Usuário logado: navega direto para a Home
                 findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
             }else{
+                // Usuário não autenticado: navega para o Login
                 findNavController().navigate(R.id.action_splashFragment_to_authentication)
             }
 
@@ -50,9 +55,6 @@ class SplashFragment : Fragment() {
             Toast.makeText(requireContext(),e.message.toString(), Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_splashFragment_to_authentication)
         }
-
-
-
     }
 
     override fun onDestroyView() {

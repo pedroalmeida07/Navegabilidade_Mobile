@@ -9,6 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.pedro.task.R
 import com.pedro.task.databinding.BottomSheetBinding
 
+// Inicia a toolbar dos fragments e configura o botão de navegação para voltar à tela anterior
 fun Fragment.initToolbar(toolbar: Toolbar){
     (activity as AppCompatActivity).setSupportActionBar(toolbar)
     (activity as AppCompatActivity).title=""

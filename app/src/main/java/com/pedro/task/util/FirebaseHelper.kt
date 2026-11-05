@@ -1,12 +1,11 @@
 package com.pedro.task.util
 
-
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.database
 import com.pedro.task.R
 
-
+//Facilita o acesso à Autenticação, Banco de Dados em tempo real e tratamento de erros.
 class FirebaseHelper {
 
     companion object{
