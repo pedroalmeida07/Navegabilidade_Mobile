@@ -118,7 +118,6 @@ class TodoFragment : Fragment() {
 
 
     private fun getTask() {
-
         FirebaseHelper.getDatabase()
             .child("tasks")
             .child(FirebaseHelper.getIdUser())

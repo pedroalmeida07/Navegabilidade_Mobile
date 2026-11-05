@@ -11,17 +11,16 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.pedro.task.R
 import com.pedro.task.databinding.FragmentRecoverAccountBinding
+import com.pedro.task.ui.BaseFragment
 import com.pedro.task.util.FirebaseHelper
 import com.pedro.task.util.initToolbar
 import com.pedro.task.util.showBottomSheet
 
 
-class RecoverAccountFragment : Fragment() {
+class RecoverAccountFragment : BaseFragment() {
 
     private var _binding: FragmentRecoverAccountBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,8 +35,6 @@ class RecoverAccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
 
-        auth = FirebaseAuth.getInstance()
-
         initListener()
     }
 
@@ -51,6 +48,8 @@ class RecoverAccountFragment : Fragment() {
         val email = binding.campoEmail.text.toString().trim()
 
         if (email.isNotBlank()){
+            hideKeyboard()
+
             Toast.makeText(requireContext(), "Tudo OK", Toast.LENGTH_SHORT).show()
         } else{
             showBottomSheet(message = getString(R.string.email_empty))
@@ -59,7 +58,7 @@ class RecoverAccountFragment : Fragment() {
 
     private fun recoverAccountUser(email: String){
         try {
-            auth.sendPasswordResetEmail(email)
+            FirebaseHelper.getAuth().sendPasswordResetEmail(email)
                 .addOnCompleteListener { task ->
                     binding.progressBar.isVisible = false
                     if (task.isSuccessful){

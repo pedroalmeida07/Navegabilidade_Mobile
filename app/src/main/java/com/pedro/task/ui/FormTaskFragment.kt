@@ -21,10 +21,11 @@ import com.pedro.task.data.model.Task
 import com.pedro.task.databinding.FragmentFormTaskBinding
 import com.pedro.task.databinding.FragmentRecoverAccountBinding
 import com.pedro.task.databinding.FragmentRegisterBinding
+import com.pedro.task.util.FirebaseHelper
 import com.pedro.task.util.initToolbar
 import com.pedro.task.util.showBottomSheet
 
-class FormTaskFragment : Fragment() {
+class FormTaskFragment : BaseFragment() {
 
     private var _binding: FragmentFormTaskBinding? = null
     private val binding get() = _binding!!
@@ -32,9 +33,6 @@ class FormTaskFragment : Fragment() {
     private lateinit var task: Task
     private var newTask: Boolean = true
     private var status: Status = Status.TODO
-
-    private lateinit var reference: DatabaseReference
-    private lateinit var auth: FirebaseAuth
 
     private val viewModel: TaskViewModel by activityViewModels()
     private val args: FormTaskFragmentArgs by navArgs()
@@ -51,9 +49,6 @@ class FormTaskFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
-
-        reference = Firebase.database.reference
-        auth = Firebase.auth
 
         getArgs()
         initListener()
@@ -95,33 +90,46 @@ class FormTaskFragment : Fragment() {
                 else -> Status.DONE
             }
         }
+
+        binding.buttonSave.setOnClickListener {
+            validateData()
+        }
     }
 
     private fun validateData(){
         val description = binding.editTextDescricao.text.toString().trim()
 
         if (description.isNotBlank()){
+            hideKeyboard()
+
             binding.progressBar.isVisible = true
 
-            if (newTask) {
-                task = Task(id = reference.database.reference.push().key ?: "",
-                    description = description,
-                    status = status)
-            }
-
+            if (newTask) task = Task()
             saveTask()
-
         }else{
             showBottomSheet(message = getString(R.string.description_empty_form_task_fragment))
         }
     }
 
     private fun saveTask(){
-        reference
+        // Valida autenticação
+        val userId = FirebaseHelper.getIdUser()
+        if (userId == null){
+            showBottomSheet(message = getString(R.string.error_generic))
+            return
+        }
+
+        // Mostra loading
+        binding.progressBar.isVisible = true
+
+        FirebaseHelper.getDatabase()
             .child("task")
-            .child(auth.currentUser?.uid?: "")
+            .child(userId)
             .child(task.id)
             .setValue(task).addOnCompleteListener { result ->
+                // Oculta loading em qualquer caso
+                binding.progressBar.isVisible = false
+
                 if (result.isSuccessful){
                     Toast.makeText(
                         requireContext(),

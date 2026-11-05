@@ -12,16 +12,15 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.pedro.task.R
 import com.pedro.task.databinding.FragmentLoginBinding
+import com.pedro.task.ui.BaseFragment
 import com.pedro.task.util.FirebaseHelper
 import com.pedro.task.util.showBottomSheet
 
 
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,8 +33,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        auth = FirebaseAuth.getInstance()
 
         initListener()
     }
@@ -59,6 +56,7 @@ class LoginFragment : Fragment() {
         val senha = binding.campoSenha.text.toString().trim()
         if (email.isNotBlank()){
             if (senha.isNotBlank()){
+                hideKeyboard()
                 binding.progressBar.isVisible = true
                 loginUser(email,senha)
             } else{
@@ -71,7 +69,7 @@ class LoginFragment : Fragment() {
 
     private fun loginUser(email:String, password: String){
         try {
-           auth.signInWithEmailAndPassword(email, password)
+            FirebaseHelper.getAuth().signInWithEmailAndPassword(email, password)
                .addOnCompleteListener { task ->
                    if (task.isSuccessful){
                        findNavController().navigate(R.id.action_global_homeFragment)

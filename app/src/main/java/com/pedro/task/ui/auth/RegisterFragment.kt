@@ -12,13 +12,13 @@ import com.pedro.task.databinding.FragmentRegisterBinding
 import com.pedro.task.util.initToolbar
 import com.pedro.task.util.showBottomSheet
 import com.google.firebase.auth.FirebaseAuth
+import com.pedro.task.ui.BaseFragment
 import com.pedro.task.util.FirebaseHelper
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : BaseFragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +47,8 @@ class RegisterFragment : Fragment() {
 
         if (email.isNotBlank()){
             if (senha.isNotBlank()){
+                hideKeyboard()
+
                 binding.progressBar.isVisible = true
                 registerUser(email,senha)
             } else{
@@ -59,9 +61,8 @@ class RegisterFragment : Fragment() {
 
     private fun registerUser(email:String, password: String){
         try {
-            val auth = FirebaseAuth.getInstance()
 
-            auth.createUserWithEmailAndPassword(email, password)
+            FirebaseHelper.getAuth().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
 
