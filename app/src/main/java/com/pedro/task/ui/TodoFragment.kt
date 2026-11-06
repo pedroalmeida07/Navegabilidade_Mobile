@@ -63,22 +63,24 @@ class TodoFragment : Fragment() {
 
     private fun observerViewModel(){
         viewModel.taskUpdate.observe(viewLifecycleOwner){ updateTask ->
-            // Armazena a lista atual do adaptador
-            val oldList = taskAdapter.currentList
+            if(updateTask.status == Status.TODO){
+                // Armazena a lista atual do adaptador
+                val oldList = taskAdapter.currentList
 
-            // Gera uma nova lista a partir da lista antiga já com a tarefa atualizada
-            val newList = oldList.toMutableList().apply {
-                find { it.id == updateTask.id }?.description = updateTask.description
+                // Gera uma nova lista a partir da lista antiga já com a tarefa atualizada
+                val newList = oldList.toMutableList().apply {
+                    find { it.id == updateTask.id }?.description = updateTask.description
+                }
+
+                // Armazena a posição da tarefa a ser atualizada na lista
+                val position = newList.indexOfFirst { it.id == updateTask.id }
+
+                // Envia a lista atualizada para o adapter
+                taskAdapter.submitList(newList)
+
+                // Atualiza a tarefa pela posição do adapter
+                taskAdapter.notifyItemChanged(position)
             }
-
-            // Armazena a posição da tarefa a ser atualizada na lista
-            val position = newList.indexOfFirst { it.id == updateTask.id }
-
-            // Envia a lista atualizada para o adapter
-            taskAdapter.submitList(newList)
-
-            // Atualiza a tarefa pela posição do adapter
-            taskAdapter.notifyItemChanged(position)
         }
     }
 
@@ -119,7 +121,7 @@ class TodoFragment : Fragment() {
 
     private fun getTask() {
         FirebaseHelper.getDatabase()
-            .child("tasks")
+            .child("task")
             .child(FirebaseHelper.getIdUser())
             .addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {

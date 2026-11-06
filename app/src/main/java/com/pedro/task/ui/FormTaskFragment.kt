@@ -105,6 +105,9 @@ class FormTaskFragment : BaseFragment() {
             binding.progressBar.isVisible = true
 
             if (newTask) task = Task()
+            task.description = description
+            task.status = status
+
             saveTask()
         }else{
             showBottomSheet(message = getString(R.string.description_empty_form_task_fragment))
